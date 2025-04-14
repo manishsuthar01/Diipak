@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* Container for all products */
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    /* Individual product card */
+    .product-card {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      padding: 15px;
+      width: 100%;
+      max-width: 220px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .product-card p {
+      font-size:clamp(1.2rem,4vw,1rem);
+      font-weight: 600;
+      margin: 10px 0;
+      color: #333;
+    }
+
+    .product-card a {
+      display: inline-block;
+      font-size: 18px;
+      color: #007BFF;
+      text-decoration: none;
+      margin-top: 8px;
+    }
+
+    .product-card a:hover {
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="simillar_container" class="product-grid">
+    <!-- same category product will be injected here -->
+
+  </div>
+
+
+  <!-- script for same category product -->
+  <script>
+    fetch('products.json')
+      .then(res => res.json())
+      .then(products => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productCategory = urlParams.get('category');
+        const similarContainer = document.getElementById('simillar_container');
+        Object.entries(products).filter(([_, item]) => item.category === productCategory).slice(0, 3).forEach(([id, item]) => {
+          const div = document.createElement('div');
+          div.className = 'product-card'
+          div.innerHTML = `
+                  <img src="${item.image}" alt="${item.name}"/>
+                  <p >${item.name}</p>
+                  <a href="product.html?id=${id}&category=${item.category}" >Buy</a>
+                `;
+          similarContainer.appendChild(div);
+        });
+      })
+
+  </script>
+</body>
+
+</html>

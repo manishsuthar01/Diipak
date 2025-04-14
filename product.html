@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 16px;
+    background-color: #f9f9f9;
+    color: #222;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .product-detail {
+    max-width: 500px;
+    margin: auto;
+    border: 1px solid;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .product-detail img {
+    padding: 10px;
+    width: 95%;
+    height: 75%;
+    border-radius: 10px;
+  }
+
+  .product-detail h1 {
+    font-size: clamp(1.1rem, 5vw, 1rem);
+    margin: 16px 0;
+    color: #333;
+  }
+
+  .product-detail p {
+    font-size: clamp(1rem, 5vw, 0.7rem);
+    margin: 16px 0;
+    color: #666;
+  }
+
+  .product-detail a {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 0.8rem 2rem;
+    background-color: #007BFF;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    margin: 10px;
+    transition: background-color 0.3s ease;
+  }
+
+  .product-detail a:hover {
+    background-color: #0056b3;
+  }
+</style>
+</head>
+
+<body>
+
+  <div class="product-detail" id="product-container">
+    <!-- Product details will be injected here -->
+  </div>
+
+  <h2 style="text-align:center;">Similar Products</h2>
+  <div class="simillar_product" id="simillar_container"
+    style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+    <!-- Similar products will be injected here -->
+  </div>
+
+  <script>
+    fetch('products.json')
+      .then(res => res.json())
+      .then(products => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+        const product = products[productId];
+        const container = document.getElementById('product-container');
+        if (product) {
+
+          container.innerHTML = `
+              <img src="${product.image}" alt="${product.name}">
+              <h1>${product.name}</h1>
+              <p>${product.description}</p>
+              <a href="${product.buyLink}" target="_blank">Buy Now</a>
+              <p>💬 We only recommend trusted products sold via Amazon India</p>
+            `;
+
+          // Similar products section
+          const similarContainer = document.getElementById('simillar_container');
+          Object.entries(products)
+            .filter(([id, _]) => id !== productId)  // ❗ Use [id, item] and filter out current product
+            .slice(0, 3) // show only 3 similar products
+            .forEach(([id, item]) => {
+              const div = document.createElement('div');
+              div.style.width = '150px';
+              div.style.textAlign = 'center';
+              div.style.border = '1px solid #ccc';
+              div.style.padding = '10px';
+              div.style.borderRadius = '8px';
+              div.style.backgroundColor = '#fff';
+              div.style.boxShadow = '0 2px 6px rgba(0,0,0,0.1)';
+              div.innerHTML = `
+                  <img src="${item.image}" alt="${item.name}" style="width:100%; border-radius: 8px;" />
+                  <p style="font-size: 14px; font-weight: bold;">${item.name}</p>
+                  <a href="?id=${id}" style="font-size: 13px; color: #007BFF;">View</a>
+                `;
+              similarContainer.appendChild(div);
+            });
+
+        } else {
+          container.innerHTML = "<p>Product not found.</p>";
+        }
+      })
+      .catch(err => {
+        console.error("Failed to load products.json", err);
+        document.getElementById('product-container').innerHTML = "<p>Error loading product data.</p>";
+      });
+  </script>
+
+
+</body>
+
+
+</html>
