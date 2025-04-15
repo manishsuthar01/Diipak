@@ -78,7 +78,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const productCategory = urlParams.get('category');
         const similarContainer = document.getElementById('simillar_container');
-        Object.entries(products).filter(([_, item]) => item.category === productCategory).slice(0, 3).forEach(([id, item]) => {
+        Object.entries(products).filter(([_, item]) => item.category === productCategory).slice(0, 6).forEach(([id, item]) => {
           const div = document.createElement('div');
           div.className = 'product-card'
           div.innerHTML = `
