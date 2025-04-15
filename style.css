@@ -130,7 +130,6 @@ html {
 
 #hero .text_content {
   max-width: 500px;
-  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -138,7 +137,7 @@ html {
   position: relative;
   text-align: center;
   color: rgb(90, 73, 73);
-}
+  padding: 10px 20px;}
 #hero::after {
   content: "";
   position: absolute;
@@ -176,7 +175,7 @@ html {
 
   background: linear-gradient(to right, #eaf4ff, #ffeaf4);
   color: #3a3a3a;
-  border: 1px solid;
+  border: 1px solid whitesmoke;
   padding: 10px;
   margin-top: -23px;
   margin-bottom: 27px;
@@ -197,7 +196,7 @@ html {
   min-width: 200px;
   width: 20%;
   height: 310px;
-  border: 1px solid black;
+  border: 1px solid rgb(225, 211, 211);
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -220,7 +219,7 @@ html {
 }
 /* shop */
 .shop-category {
-  position: relative;
+  position:relative;
   text-align: center;
   padding: 50px 20px;
   background: linear-gradient(90deg, #c3f0ec 0%, #f9d7cf 100%);
@@ -231,7 +230,8 @@ html {
   margin-bottom: 30px;
   background: linear-gradient(to right, #eaf4ff, #ffeaf4);
   color: #3a3a3a;
-  border: 1px solid;
+  border: 1px solid whitesmoke;
+  border-radius: 10px;
   padding: 10px; 
 }
 
@@ -349,7 +349,28 @@ html {
     justify-content: center;
     font-weight: 900;
     color: black;
-    margin: 40px;
+    background-color: rgb(178, 133, 133);
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    padding: 10px;
+  }
+  .nav_list.show li a::after {
+    content: "";
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 0%;
+    height: 2px;
+    background: #222;
+    transition: 0.4s;
+  }
+  .nav_list.show li a:hover::after {
+    width: 100%;
+  }
+  .nav_list.show a:hover {
+    color: #8b3c24; /* Accent color */
+    transition: 0.3s;
   }
 }
 
